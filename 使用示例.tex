@@ -1,0 +1,71 @@
+
+
+
+
+\chapter{\#\#\#使用示例}
+
+\section{引用}
+ 引用\cite{BQC_2020}引用\cite{向守平2008天体物理概论}引用\cite{2019First},引用\cite{BQC_2020,向守平2008天体物理概论,2019First}
+
+
+\section{图片}
+
+% 复制以下代码
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{example-image-a}%
+	\caption{这是一个示例图片}
+	\label{fig:一个示例图片}
+\end{figure}
+
+% \zhlipsum
+
+
+
+
+% 需要在导入这两个包
+%'''
+% \usepackage{subcaption}
+% \usepackage{graphicx}
+%'''
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{example-image-a}
+        \caption{fig:一个示例图片1}
+        \label{label1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{example-image-a}
+        \caption{fig:一个示例图片2}
+        \label{label2}
+    \end{subfigure}
+    \caption{两张图片}
+\end{figure}
+
+
+
+\section{表格}
+\begin{table}[htbp]
+	\centering
+	\caption{An example Table.}
+	\label{tab:example-tab}
+	\begin{tabular}{lcc}
+		\toprule
+		Star           & Mass        & Luminosity  \\
+		               & $M_{\odot}$ & $L_{\odot}$ \\
+		\midrule
+		Sun            & 1.00        & 1.00        \\
+		$\alpha$~Cen~A & 1.10        & 1.52        \\
+		$\epsilon$~Eri & 0.82        & 0.34        \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\zhlipsum

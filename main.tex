@@ -1,3 +1,4 @@
+% !TeX document-id = {a3f5b1d0-79dd-4fc2-8279-d3333545bdf0}
 % !TeX program  = XeLaTeX
 % !TeX encoding = UTF-8
 
@@ -6,6 +7,12 @@
 \usepackage{YNUlogo}
 \usepackage{booktabs}
 \usepackage{zhlipsum}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{placeins}
+
 
 \YNUsetup{
   % 参数设置
@@ -98,7 +105,7 @@
     % 可以是单个文件，也可以是用英文逗号 “,” 隔开的一组文件
     % 如果使用 biblatex，则必须明确给出 .bib 后缀名
     %
-    % auto-make-cover = true
+     auto-make-cover = false
     % 是否自动生成论文封面（封一）、指导小组成员名单（封二）和声明页（封三）
     % 除非特殊需要（e.g. 不要封面），否则不建议设为 false
   },
@@ -206,16 +213,26 @@
 % 这个命令用来关闭版心底部强制对齐，可以减少不必要的 underfull \vbox 提示，但会影响排版效果
 \raggedbottom
 
+% 导入封面
+% 封面在 fengmian.doc中
+% 需要导出为pdf, 且pdf名字为 fengmian.pdf
+\includepdf{fengmian.pdf}
+
+
+% 导入扉页1
+\includepdf{feiye1.pdf}
+
+
+% 导入扉页2
+\includepdf{feiye2.pdf}
+
+
+
+
 % 前置部分包含目录、中英文摘要以及符号表等
 \frontmatter
 
-\begin{abstract}
-	中文摘要
-\end{abstract}
 
-\begin{abstract*}
-	English abstract
-\end{abstract*}
 
 % 目录
 \tableofcontents
@@ -224,83 +241,38 @@
 % 表格目录
 \listoftables
 
-% 符号表
-% 语法与 LaTeX 表格一致：列用 & 区分，行用 \\ 区分
-% 如需修改格式，可以使用可选参数：
-%   \begin{notation}[ll]
-%     $x$ & 坐标 \\
-%     $p$ & 动量
-%   \end{notation}
-% 可选参数与 LaTeX 标准表格的列格式说明语法一致
-% 这里的 “ll” 表示两列均为自动宽度，并且左对齐
-\begin{notation}[ll]
-	$x$                  & 坐标        \\
-	$p$                  & 动量        \\
-\end{notation}
+
 
 % 主体部分是论文的核心
 \mainmatter
 
-% 建议采用多文件编译的方式
-% 比较好的做法是把每一章放进一个单独的 tex 文件里，并在这里用 \include 导入，例如
-%   \include{chapter1}
-%   \include{chapter2}
-%   \include{chapter3}
 
-\chapter{介绍}
 
-\zhlipsum
-引用\cite{BQC_2020}引用\cite{向守平2008天体物理概论}引用\cite{2019First},引用\cite{BQC_2020,向守平2008天体物理概论,2019First}
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.5\linewidth]{example-image-a}%
-	\caption{这是一个示例图片}
-	\label{fig:一个示例图片}
-\end{figure}
+% 如果懂了使用示例, 请注释掉
+\include{使用示例}
+% 用来生成和文章无关的文字
 
-\zhlipsum
 
-\begin{table}[htbp]
-	\centering
-	\caption{An example Table.}
-	\label{tab:example-tab}
-	\begin{tabular}{lcc}
-		\toprule
-		Star           & Mass        & Luminosity  \\
-		               & $M_{\odot}$ & $L_{\odot}$ \\
-		\midrule
-		Sun            & 1.00        & 1.00        \\
-		$\alpha$~Cen~A & 1.10        & 1.52        \\
-		$\epsilon$~Eri & 0.82        & 0.34        \\
-		\bottomrule
-	\end{tabular}
-\end{table}
 
-\zhlipsum
 
-\[
-	a^2+b^2=c^2
-\]
-\zhlipsum
-\begin{equation}
-	a^2+b^2=c^2
-\end{equation}
+% 修改论文的内容在以下几个文件中修改
+% chapter1.tex, chapter2.tex, chapter3.tex
+\include{chapter1}
 
-\zhlipsum
+\include{chapter2}
 
-\section{动力学演化}
-\zhlipsum
+\include{chapter3}
 
-\subsection{动力学演化}
-\zhlipsum
+\include{chapter4}
 
-\subsubsection{动力学演化}
-\zhlipsum
+\include{chapter5}
 
-\chapter{总结与展望}
-\zhlipsum
 
+
+
+
+% ################# 附录 ###################
 \appendix
 \chapter{附录}
 \zhlipsum

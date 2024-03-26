@@ -1,5 +1,14 @@
 # 云南大学研究生学位论文 LaTeX 模板
 
+
+
+原大佬在这里
+
+- [Astro-Lee/YNUthesis: LaTeX thesis template for Yunnan University (github.com)](https://github.com/Astro-Lee/YNUthesis)
+- **原模板**封面的标题是`居中对齐`, **研究生院**发的通知为`左对齐`
+
+
+
 [![Compiling LaTeX template](https://github.com/Astro-Lee/YNUthesis/actions/workflows/Compiling%20LaTeX%20template.yml/badge.svg)](https://github.com/Astro-Lee/YNUthesis/actions/workflows/Compiling%20LaTeX%20template.yml)
 
 - 本模板正处于开发阶段。
