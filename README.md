@@ -13,6 +13,7 @@
 - **原模板**封面的**标题**是`居中对齐`, **研究生院**发的通知为`左对齐`
 - 封面有两种生成方式, `导入pdf`和 `使用命令生成`
 - 如果**封面**使用**居中对齐**的方式, 请转到[Astro-Lee/YNUthesis: LaTeX thesis template for Yunnan University (github.com)](https://github.com/Astro-Lee/YNUthesis)
+- 增加**答辩PPT模板**，解压`zip`文件，编译器使用`Xelatex`, 主文档是`ppt.tex`, 修改自[Presentation Data Science LM-DATA UNICT - Overleaf, Online LaTeX Editor](https://www.overleaf.com/latex/templates/presentation-data-science-lm-data-unict/gfqjwvrwsghp)
 
 
 
