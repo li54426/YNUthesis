@@ -8,12 +8,40 @@
 
     
 
-## 说明 
+## 修改说明 
 
 - **原模板**封面的**标题**是`居中对齐`, **研究生院**发的通知为`左对齐`
 - 封面有两种生成方式, `导入pdf`和 `使用命令生成`
 - 如果**封面**使用**居中对齐**的方式, 请转到[Astro-Lee/YNUthesis: LaTeX thesis template for Yunnan University (github.com)](https://github.com/Astro-Lee/YNUthesis)
-- 增加**答辩PPT模板**，解压`zip`文件，编译器使用`Xelatex`, 主文档是`ppt.tex`, 修改自[Presentation Data Science LM-DATA UNICT - Overleaf, Online LaTeX Editor](https://www.overleaf.com/latex/templates/presentation-data-science-lm-data-unict/gfqjwvrwsghp)
+- ~~增加**答辩PPT模板**，解压`zip`文件，编译器使用`Xelatex`, 主文档是`ppt.tex`, 修改自[Presentation Data Science LM-DATA UNICT - Overleaf, Online LaTeX Editor](https://www.overleaf.com/latex/templates/presentation-data-science-lm-data-unict/gfqjwvrwsghp)~~已经废弃, 不好用, 不如直接用ppt
+
+
+
+#### 修改1 封面居中
+
+**修改前**
+
+![image-20240503135414946](assets/image-20240503135414946.png)
+
+**修改后**
+
+![image-20240503135337387](assets/image-20240503135337387.png)
+
+
+
+#### 修改2 页眉问题
+
+原本只有空白页
+
+![image-20240503135601549](assets/image-20240503135601549.png)
+
+- 原本只有空白页, 修改后空白页加上了页眉
+
+![image-20240503135245870](assets/image-20240503135245870.png)
+
+
+
+
 
 
 

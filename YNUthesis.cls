@@ -279,7 +279,7 @@
   { \__YNU_set_family:nnn { YNU@kai } {#2} {#1} }
 \cs_new_protected:Npn \YNU@kai
   { \__YNU_switch_family:n { YNU@kai } }
-  \cs_new_protected:Npn \__YNU_set_cjk_font_xingkai:nn #1#2
+\cs_new_protected:Npn \__YNU_set_cjk_font_xingkai:nn #1#2
   { \__YNU_set_family:nnn { YNU@xingkai } {#2} {#1} }
 \cs_new_protected:Npn \YNU@xingkai
   { \__YNU_switch_family:n { YNU@xingkai } }
@@ -712,7 +712,6 @@
     \int_case:nn { \g__YNU_thesis_type_int }
       {
         { 1 } { \__YNU_fancy_head:nn { EC } { 云南大学博士学位论文  } }
-        % 修改专业-》 学术
         { 2 } { \__YNU_fancy_head:nn { EC } { 云南大学（学术）硕士学位论文  } }
       }
   }
@@ -724,21 +723,26 @@
           \int_case:nn { \g__YNU_thesis_type_int }
           {
             { 1 } { \tl_set:Nn \l_tmpa_tl { 云南大学博士学位论文        } }
-            { 2 } { \tl_set:Nn \l_tmpa_tl { 云南大学（专业）硕士学位论文 } }
+             % 修改专业 -》 学术
+            { 2 } { \tl_set:Nn \l_tmpa_tl { 云南大学（学术）硕士学位论文 } }
           }
           \l_tmpa_tl
         }
     }
   }
 \fancyfoot [ C ] { \small \thepage }
+% 删除两行
+% \RenewDocumentCommand{\frontmatter}{O{Roman}}
+%  { \pagenumbering{#1} }
 \RenewDocumentCommand \cleardoublepage { }
   {
     \clearpage
     \bool_if:NT \g__YNU_twoside_bool
       {
         \int_if_odd:nF \c@page
-        % 修改 empty-> 
+                % 修改 empty-> 
           { \hbox:n { } \thispagestyle { fancy } \newpage }
+          % { \hbox:n { } \thispagestyle { empty } \newpage }
       }
   }
 \pagestyle { fancy }
@@ -785,7 +789,16 @@
     \__YNU_sanitize_chapter_title:n {#1}
     \group_begin:
       \ctexset { chapter / numbering = false }
-      \chapter [ \l__YNU_tmpa_tl ] {#1}
+      % 使用正则表达式匹配只包含英文字符的标题
+      \regex_match:nnTF {^[A-Za-z]+$} {#1}
+        {
+          % 如果标题只包含英文字符，则将标题设置为罗马字体
+          \chapter [ \l__YNU_tmpa_tl ] {\rmfamily #1}
+        }
+        {
+          % 如果标题不只包含英文字符，则保持默认字体
+          \chapter [ \l__YNU_tmpa_tl ] {#1}
+        }
     \group_end:
     \__YNU_chapter_header:n {#1}
   }
@@ -1137,6 +1150,7 @@
   }
 \cs_new:Npn \__YNU_blank_underline:n #1
   { \rule [ -0.5 ex ] {#1} { 0.4 pt } }
+  % 定义一个函数 \__YNU_line_spread:N，用于根据给定的参数设置文档中的行间距。
 \cs_new:Npn \__YNU_line_spread:N #1
   { \linespread { \fp_use:N #1 } \selectfont }
 \cs_new:Npn \__YNU_line_spread:n #1
@@ -1190,17 +1204,25 @@
         { 题目 \hskip 1\ccwd
           \__YNU_fixed_width_box:nn
           { 16\ccwd }
-          { \UnderlineCentered{16\ccwd}{1.5mm}{ \l__YNU_info_title_tl } }
+          { \Underlineleft{16\ccwd}{1.5mm}{ \l__YNU_info_title_tl } }
         }
   }
 \cs_new_protected:Npn \__YNU_cover_title_en:
   {
+%   具体来说，代码中使用了 LaTeX3 宏包提供的一些特性和命令：
+% \cs_new_protected:Npn 用于定义一个受保护的函数。
+% __YNU_fixed_width_center_box:nn 用于创建一个固定宽度的居中盒子，其中包含了标题和下划线框。
+% \textwidth 表示文本的宽度。
+% Title \hskip 1\ccwd 是标题的文本内容，并在其后添加了一个小间距。
+% __YNU_fixed_width_box:nn 用于创建一个固定宽度的盒子，其中包含了下划线框。
+% 16\ccwd 表示盒子的宽度为 16 个字符宽度。
+% \UnderlineCentered 是一个可能由宏包提供的命令，可能用于在盒子中创建带有下划线的文本。
     \__YNU_fixed_width_center_box:nn
         { \textwidth }
         { Title \hskip 1\ccwd
           \__YNU_fixed_width_box:nn
           { 16\ccwd }
-          { \UnderlineCentered{16\ccwd}{1.7mm}{ \l__YNU_info_title_en_tl } }
+          { \Underlineleft{16\ccwd}{1.7mm}{ \l__YNU_info_title_en_tl } }
         }
   }
 
@@ -1518,16 +1540,17 @@
     \thispagestyle { empty }
     \clist_if_empty:NF \l__YNU_info_pre_review_clist
       { \UseInstance { YNU / cover } { cover-ii-default } }
+    \cleardoublepage
   }
 \NewDocumentCommand \makecoveriii { }
   {
-    \cleardoublepage
     \tl_if_empty:NTF \l__YNU_declaration_page_tl
       {
         \thispagestyle { empty }
         \UseInstance { YNU / cover } { cover-iii-default }
       }
       { \includepdf { \l__YNU_declaration_page_tl } }
+      \cleardoublepage
   }
 \DeclareCoverTemplate { cover-i   }
   { id, logo, type, degree, title, title-en, info, date }
@@ -1541,6 +1564,10 @@
   }
 \newlength\myheight%可以重构为LaTeX3代码
 \newcommand\Mysavedprevdepth{}%
+% 这段代码是一个定义新命令的 LaTeX 代码。这个新命令名为 \UnderlineCentered，接受三个参数。
+% 第一个参数 #1 代表命令的宽度。
+% 第二个参数 #2 是要居中并下划线的内容。
+% 第三个参数 #3 是下划线的颜色。
 \newcommand\UnderlineCentered[3]{%
   \begin{adjustbox}{minipage=[t]{\dimexpr#1\relax},gstore~ totalheight=\myheight,margin=0pt}%
     \centering\leavevmode#3\par\xdef\Mysavedprevdepth{\the\prevdepth}%
@@ -1553,8 +1580,26 @@
     \kern\Mysavedprevdepth
   \end{adjustbox}%
 }%
+\newcommand\Underlineleft[3]{%
+  \begin{adjustbox}{minipage=[t]{\dimexpr#1\relax},gstore~ totalheight=\myheight,margin=0pt}%
+    \raggedright\leavevmode#3\par\xdef\Mysavedprevdepth{\the\prevdepth}%
+  \end{adjustbox}%
+  \hspace*{-\dimexpr#1\relax}%
+  \begin{adjustbox}{minipage=[t][\myheight]{\dimexpr#1\relax},margin=0pt}%
+    \vphantom{Eg}\lower\dimexpr#2\relax\hbox to\hsize{\leaders\hrule\hfill\kern0pt}\par
+    \kern-\dimexpr#2\relax
+    \xleaders\vbox to\baselineskip {\vfill\hbox{\lower\dimexpr#2\relax\hbox to\hsize{\leaders\hrule\hfill\kern0pt}}\kern-\dimexpr#2\relax}\vfill
+    \kern\Mysavedprevdepth
+  \end{adjustbox}%
+}%
+
+
+
 \DeclareInstance { YNU / cover } { cover-i-default } { cover-i }
   {
+%   定义了一系列内容，如 id、logo、type、title 等，它们的内容将在生成封面时被替换。
+% 指定了这些内容在封面上的格式，比如字号、字体等。
+% 可能还包括其他封面的相关设定，但这里截取的部分并不完整。
     bottom-skip            = 0 pt plus 0.0 fill,
     id       / content     = \__YNU_cover_id:,
     logo     / content     = \__YNU_cover_logo:,
@@ -1566,23 +1611,25 @@
     id       / format      = \zihao { 5 },
     type     / format      = \zihao { 0 } \YNU@xingkai,
     degree   / format      = \zihao { 4 },
+    % 这段代码的作用是设置标题的格式，包括行间距、字体、字号和加粗等。
     title    / format      = \__YNU_line_spread:n { 1 } \sffamily \zihao { 2 } \bfseries,
     title-en / format      = \__YNU_line_spread:n { 1 } \zihao { 2 } \bfseries,
     info     / format      = \__YNU_line_spread:n { 2 } \sffamily \zihao { 3 },
     date     / format      = \__YNU_line_spread:n { 2 } \sffamily \zihao { 3 },
+    % 具体来说，这段代码定义了一些元素（如 id、logo、type 等）在文档中的垂直位置（通过 bottom-skip）和水平位置（通过 align），以及它们之间的空白填充。例如，"info /align = right" 表示将 info 元素右对齐，"title /bottom-skip = 7 ex plus 0.5 fill" 表示标题元素底部距离为 7 ex，并且可以在需要时进行弹性填充以适应页面。
     id       / bottom-skip = 0 pt plus 1 fill,
     logo     / bottom-skip = -15 pt,%0 pt plus 0.5 fill,
     type     / bottom-skip = -25 pt,
     title / bottom-skip = 7 ex plus 0.5 fill,
     title-en / bottom-skip = 30 pt plus 2 fill,
     info / bottom-skip = 40 pt plus 10 fill,
-    date / bottom-skip = -20 pt plus 0 fill,
+    date / bottom-skip = -40 pt plus 0 fill,
     id       / align       = left,
-    logo     / align       = center,
+    logo     / align       = center,%center
     type     / align       = center,
     degree   / align       = center,
     title    / align       = left, %center
-    title-en / align       = left, %center
+    title-en / align       = center, %center
     info     / align       = right,
     date     / align       = center,
   }
@@ -1677,7 +1724,7 @@
   }
   { \__YNU_chapter:V \listtablename }
 \NewDocumentEnvironment { abstract  } { }
-{ \__YNU_abstract_begin:    } { \__YNU_abstract_end:      }
+  { \__YNU_abstract_begin:    } { \__YNU_abstract_end:      }
 \NewDocumentEnvironment { abstract* } { }
   { \__YNU_abstract_en_begin: } { \__YNU_abstract_en_end:   }
 \cs_new_protected:Npn \__YNU_abstract_begin:
@@ -1829,7 +1876,7 @@
   {
     \cs_undefine:N \addbibresource
     \clist_new:N \l__YNU_biblatex_options_clist
-    \clist_put_right:Nn \l__YNU_biblatex_options_clist { hyperref = manual }
+    \clist_put_right:Nn \l__YNU_biblatex_options_clist { hyperref = manual, gbnamefmt = lowercase,  eprint = false, gbtitlelink = true, url = false, doi = false }
     \clist_put_right:Nx \l__YNU_biblatex_options_clist
       {
         style =
@@ -1918,7 +1965,7 @@
         { material,  E91E63, 009688, 4CAF50 },
         { graylevel, 616161, 616161, 616161 },
         { prl,       2D3092, 2D3092, 2D3092 },
-        { prl2,       000000, 000000, 000000 }
+        { black,     000000, 000000, 000000 }
       }
       \__YNU_set_hyperlink_color_key:n
   }
