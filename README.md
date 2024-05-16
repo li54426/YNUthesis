@@ -43,6 +43,22 @@
 
 
 
+#### 修改3 目录问题
+
+- 修改目录
+
+修改前
+
+![image-20240516160012153](assets/image-20240516160012153.png)
+
+修改后
+
+![image-20240516160104429](assets/image-20240516160104429.png)
+
+
+
+
+
 
 
 [![Compiling LaTeX template](https://github.com/Astro-Lee/YNUthesis/actions/workflows/Compiling%20LaTeX%20template.yml/badge.svg)](https://github.com/Astro-Lee/YNUthesis/actions/workflows/Compiling%20LaTeX%20template.yml)
